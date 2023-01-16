@@ -1,25 +1,24 @@
 /****************************************************
- * SDTMƒf[ƒ^‚©‚ç‰pŒê”Å‚Ì—LŠQ–Ûˆê——•\‚ğì¬‚·‚é   *
- * —LŠQ–Û–¼‚ÍMedDRA LLT-J‚Å•\¦‚·‚é               *
+ * SDTMãƒ‡ãƒ¼ã‚¿ã‹ã‚‰è‹±èªç‰ˆã®æœ‰å®³äº‹è±¡ä¸€è¦§è¡¨ã‚’ä½œæˆã™ã‚‹   *
+ * æœ‰å®³äº‹è±¡åã¯MedDRA LLT-Jã§è¡¨ç¤ºã™ã‚‹               *
  * 			S.Takahara Kanazawa University Hospital	*
  ****************************************************/
 
-/***** €”õ *****
- ‡@ SDTMƒf[ƒ^‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒtƒHƒ‹ƒ_‚ğsdtm‚ÉŠ„‚è“–‚Ä‚é
- ‡A o—ÍExcelƒtƒ@ƒCƒ‹‚ğoutf‚ÉŠ„‚è“–‚Ä‚é
+/***** æº–å‚™ *****
+ â‘  SDTMãƒ‡ãƒ¼ã‚¿ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ•ã‚©ãƒ«ãƒ€ã‚’sdtmã«å‰²ã‚Šå½“ã¦ã‚‹
+ â‘¡ å‡ºåŠ›Excelãƒ•ã‚¡ã‚¤ãƒ«ã‚’outfã«å‰²ã‚Šå½“ã¦ã‚‹
  ****************/
 
-%let	sdtm	=	T:\Projects\XXXX\41.Data\sdtm\csv ;
-%let	outf	=	C:\Output\aeliste.xls ;
+%let	sdtm	=	R:\02.General\61.SASå…±é€šãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«\CDISCæ±ç”¨SASãƒ—ãƒ­ã‚°ãƒ©ãƒ \ãƒ†ã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ ;
+%let	outf	=	\\DM-SERVER2\FRedirect$\takahara\Desktop\aelist_e.xls ;
 
 options	mprint ;
 options	missing	=	' ' ;
 title ;
-
 /*
  * Macro Codes
  */
-* SDTMƒf[ƒ^“Ç‚İ‚İEEEdomain–¼+0‚Í“Ç‚İ‚İ‚»‚Ì‚Ü‚ÜAdomain–¼+1‚Í‘I‘ğŒã ;		
+* SDTMãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿ãƒ»ãƒ»ãƒ»domainå+0ã¯èª­ã¿è¾¼ã¿ãã®ã¾ã¾ã€domainå+1ã¯é¸æŠå¾Œ ;		
 %macro	readds	( domain , select ) ;
 	proc import	out			=	&domain.0
 				datafile	=	"&sdtm\&domain..csv"
@@ -35,14 +34,20 @@ title ;
 			where	&select ;
 	run ;
 %mend ;
+%macro	aesertxt ( plustext ) ;
+	if	length ( trim ( aesertxt ) ) le 1	then
+		aesertxt	=	&plustext ;
+	else
+		aesertxt	=	trim ( aesertxt ) || ', ' || &plustext ;
+%mend ;
 
 /*
- * SDTMƒf[ƒ^“Ç‚İ‚İ ;
+ * SDTMãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿ ;
  */
 %readds		( ae , AETERM ne '' ) ;
 %readds		( dm , usubjid ne '' ) ; 
 
-proc sort	data	=	ae1 ;	* usubjid‚Æ”­Œ»“ú‚Åƒ\[ƒg ;
+proc sort	data	=	ae1 ;	* usubjidã¨ç™ºç¾æ—¥ã§ã‚½ãƒ¼ãƒˆ ;
 	by	usubjid	aestdtc ;
 run ;
 
@@ -54,11 +59,25 @@ data	ae2 ;
 	merge	dm1
 			ae1(in=a) ;
 		by	usubjid ;
-*	if	a ;				* —LŠQ–Û”­Œ»‚Ì‚İ‚ğƒŠƒXƒg‚É‚·‚éê‡B—LŠQ–Û‚Ì‚È‚¢Ç—á‚ğuN/Av‚Æ•\¦‚³‚¹‚é‚Ì‚Å‚ ‚ê‚ÎA‚±‚±‚ÍƒRƒƒ“ƒgƒAƒEƒg ;
+	length	aesertxt	$ 200 ;
+*	if	a ;				* æœ‰å®³äº‹è±¡ç™ºç¾ã®ã¿ã‚’ãƒªã‚¹ãƒˆã«ã™ã‚‹å ´åˆã€‚æœ‰å®³äº‹è±¡ã®ãªã„ç—‡ä¾‹ã‚’ã€ŒN/Aã€ã¨è¡¨ç¤ºã•ã›ã‚‹ã®ã§ã‚ã‚Œã°ã€ã“ã“ã¯ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆ ;
+
+* é‡ç¯¤ãƒ†ã‚­ã‚¹ãƒˆ ;
+	if		aeser eq 'N'	then	do ;
+		aesertxt	=	'No' ;
+	end ;
+	else if	aeser eq 'Y'	then	do ;
+		if aesdth eq 'Y'	then	%aesertxt ( 'DEATH' ) ;
+		if aesdisab eq 'Y'	then	%aesertxt ( 'DISABILITY/INCAPACITY' ) ;
+		if aeshosp eq 'Y'	then	%aesertxt ( 'HOSPITALIZATION' ) ;
+		if aeslife eq 'Y'	then	%aesertxt ( 'LIFE THREATENING' ) ;
+		if aescong eq 'Y'	then	%aesertxt ( 'CONGENTIAL ANOMALY/BIRTH DEFEAT' ) ;
+		if aesmie eq 'Y'	then	%aesertxt ( 'OTHER SERIOUS EVENT' ) ;
+	end ;
 
 	keep	usubjid	age	sex	arm	
 			aellt	/* aehlt	aesoc */
-			aeser
+			aesertxt
 			aetoxgr
 			aerel
 			aeout
@@ -69,7 +88,7 @@ data	ae2 ;
 			sex			=	'Sex'
 			arm			=	'Arm'
 			aellt		=	'Adverse event name (LLT)'
-			aeser		=	'Serious'
+			aesertxt	=	'Serious'
 			aetoxgr		=	'Toxicity Grade'
 			aerel		=	'Causality'
 			aeout		=	'Outcome'
@@ -79,7 +98,7 @@ proc sort	data	=	ae2 ;
 	by	usubjid ;
 run ;
 /*
- * o—Í—pƒf[ƒ^ƒZƒbƒg
+ * å‡ºåŠ›ç”¨ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
  */
 data	output ;
 	format	usubjid
@@ -103,7 +122,7 @@ data	output ;
 	if	aellt eq ' '	then	aellt	=	'N/A' ;
 run ;
 /*
- * Excel•\¦
+ * Excelè¡¨ç¤º
  */
 filename	outf	"&outf" ;
 ods html 	file	= 	outf
