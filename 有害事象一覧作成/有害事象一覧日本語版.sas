@@ -1,48 +1,49 @@
 /****************************************************
- * SDTMƒf[ƒ^‚©‚ç“ú–{Œê‚Ì—LŠQ–Ûˆê——•\‚ğì¬‚·‚é   *
- * —LŠQ–Û–¼‚ÍMedDRA LLT-J‚Å•\¦‚·‚é               *
+ * SDTMãƒ‡ãƒ¼ã‚¿ã‹ã‚‰æ—¥æœ¬èªã®æœ‰å®³äº‹è±¡ä¸€è¦§è¡¨ã‚’ä½œæˆã™ã‚‹   *
+ * æœ‰å®³äº‹è±¡åã¯MedDRA LLT-Jã§è¡¨ç¤ºã™ã‚‹               *
  * 			S.Takahara Kanazawa University Hospital	*
  ****************************************************/
 
-/***** €”õ *****
- ‡@ SDTMƒf[ƒ^‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒtƒHƒ‹ƒ_‚ğsdtm‚ÉŠ„‚è“–‚Ä‚é
- ‡A MedDRA-J‚Ìllt-j.asc‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒtƒHƒ‹ƒ_‚ğMedDRAf‚ÉŠ„‚è“–‚Ä‚é
- ‡B o—ÍExcelƒtƒ@ƒCƒ‹‚ğoutf‚ÉŠ„‚è“–‚Ä‚é
+/***** æº–å‚™ *****
+ â‘  SDTMãƒ‡ãƒ¼ã‚¿ãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ•ã‚©ãƒ«ãƒ€ã‚’sdtmã«å‰²ã‚Šå½“ã¦ã‚‹
+ â‘¡ MedDRA-Jã®llt-j.ascãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ãƒ•ã‚©ãƒ«ãƒ€ã‚’MedDRAfã«å‰²ã‚Šå½“ã¦ã‚‹
+ â‘¢ å‡ºåŠ›Excelãƒ•ã‚¡ã‚¤ãƒ«ã‚’outfã«å‰²ã‚Šå½“ã¦ã‚‹
  ****************/
 
-%let	sdtm	=	T:\Projects\XXXX\41.Data\sdtm\csv ;
-%let	MedDRAf	=	R:\02.General\51.ƒVƒXƒeƒ€ŠÖ˜A\21.«‘\MedDRA 22.0\ASCII\MDRA_J220 ;
-%let	outf	=	C:\Output\aelistj.xls ;
+%let	sdtm	=	R:\02.General\61.SASå…±é€šãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«\CDISCæ±ç”¨SASãƒ—ãƒ­ã‚°ãƒ©ãƒ \ãƒ†ã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ ;
+%let	MedDRAf	=	R:\02.General\51.ã‚·ã‚¹ãƒ†ãƒ é–¢é€£\21.è¾æ›¸\MedDRA 22.0\ASCII\MDRA_J220 ;
+%let	outf	=	\\DM-SERVER2\FRedirect$\takahara\Desktop\aelist_j.xls ;
 
 options	mprint ;
 options	missing	=	' ' ;
 title ;
 /*
- * FormatsEEEƒvƒƒgƒR[ƒ‹‚â‘I‘ğˆ‚É‡‚í‚¹‚Ä“K‹XC³
+ * Formatsãƒ»ãƒ»ãƒ»ãƒ—ãƒ­ãƒˆã‚³ãƒ¼ãƒ«ã‚„é¸æŠè‚¢ã«åˆã‚ã›ã¦é©å®œä¿®æ­£
  */
 Proc format ;
-	value	$aeserf
-		'Y'		=	'd“Ä'
-		'N'		=	'”ñd“Ä'
-		;
 	value	$aerelf
-		'NOT RELATED'	=	'ŠÖ˜A‚È‚µ'
-		'RELATED'		=	'ŠÖ˜A‚ ‚è'
+		'NOT RELATED'	=	'é–¢é€£ãªã—'
+		'RELATED'		=	'é–¢é€£ã‚ã‚Š'
 		;
 	value	$aeoutf
-		'RECOVERED/RESOLVED'	=	'‰ñ•œ'
-		'RECOVERING/RESOLVING'	=	'Œy‰õ'
-		'NOT RECOVERED/NOT RESOLVED'	=	'–¢‰ñ•œ'
-		'RECOVERED/RESOLVED WITH SEQUELAE'	=	'ŒãˆâÇ‚ ‚è'
-		'FATAL'					=	'€–S'
-		'UNKNOWN'				=	'•s–¾'
+		'RECOVERED/RESOLVED'	=	'å›å¾©'
+		'RECOVERING/RESOLVING'	=	'è»½å¿«'
+		'NOT RECOVERED/NOT RESOLVED'	=	'æœªå›å¾©'
+		'RECOVERED/RESOLVED WITH SEQUELAE'	=	'å¾Œéºç—‡ã‚ã‚Š'
+		'FATAL'					=	'æ­»äº¡'
+		'UNKNOWN'				=	'ä¸æ˜'
+		;
+	value	$sexf
+		'M'		=	'ç”·'
+		'F'		=	'å¥³'
+		'UNKNOWN'	=	'ä¸æ˜'
 		;
 run ;
 
 /*
  * Macro Codes
  */
-* SDTMƒf[ƒ^“Ç‚İ‚İEEEdomain–¼+0‚Í“Ç‚İ‚İ‚»‚Ì‚Ü‚ÜAdomain–¼+1‚Í‘I‘ğŒã ;		
+* SDTMãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿ãƒ»ãƒ»ãƒ»domainå+0ã¯èª­ã¿è¾¼ã¿ãã®ã¾ã¾ã€domainå+1ã¯é¸æŠå¾Œ ;		
 %macro	readds	( domain , select ) ;
 	proc import	out			=	&domain.0
 				datafile	=	"&sdtm\&domain..csv"
@@ -58,14 +59,20 @@ run ;
 			where	&select ;
 	run ;
 %mend ;
+%macro	aesertxt ( plustext ) ;
+	if	length ( trim ( aesertxt ) ) le 1	then
+		aesertxt	=	&plustext ;
+	else
+		aesertxt	=	trim ( aesertxt ) || ', ' || &plustext ;
+%mend ;
 
 /*
- * SDTMƒf[ƒ^“Ç‚İ‚İ ;
+ * SDTMãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿ ;
  */
 %readds		( ae , AETERM ne '' ) ;
 %readds		( dm , usubjid ne '' ) ; 
 
-proc sort	data	=	ae1 ;	* usubjid‚Æ”­Œ»“ú‚Åƒ\[ƒg ;
+proc sort	data	=	ae1 ;	* usubjidã¨ç™ºç¾æ—¥ã§ã‚½ãƒ¼ãƒˆ ;
 	by	usubjid	aestdtc ;
 run ;
 
@@ -77,11 +84,11 @@ data	ae2 ;
 	merge	dm1
 			ae1(in=a) ;
 		by	usubjid ;
-*	if	a ;				* —LŠQ–Û”­Œ»‚Ì‚İ‚ğƒŠƒXƒg‚É‚·‚éê‡B—LŠQ–Û‚Ì‚È‚¢Ç—á‚ğu”­Œ»‚È‚µv‚Æ•\¦‚³‚¹‚é‚Ì‚Å‚ ‚ê‚ÎA‚±‚±‚ÍƒRƒƒ“ƒgƒAƒEƒg ;
+*	if	a ;				* æœ‰å®³äº‹è±¡ç™ºç¾ã®ã¿ã‚’ãƒªã‚¹ãƒˆã«ã™ã‚‹å ´åˆã€‚æœ‰å®³äº‹è±¡ã®ãªã„ç—‡ä¾‹ã‚’ã€Œç™ºç¾ãªã—ã€ã¨è¡¨ç¤ºã•ã›ã‚‹ã®ã§ã‚ã‚Œã°ã€ã“ã“ã¯ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆ ;
 run ;
 
 /*
- * MedDRA-J‚ÌLLT‚ğ“Ç‚İ‚İEEE‰pŒê”Å‚È‚ç•s—v ;
+ * MedDRA-Jã®LLTã‚’èª­ã¿è¾¼ã¿ãƒ»ãƒ»ãƒ»è‹±èªç‰ˆãªã‚‰ä¸è¦ ;
  */
 PROC IMPORT OUT= WORK.LLT_J 
             DATAFILE= "&MedDRAf\llt_j.asc" 
@@ -93,7 +100,7 @@ PROC IMPORT OUT= WORK.LLT_J
 RUN;
 
 /*
- * MedDRA-J‚Æƒ}[ƒW
+ * MedDRA-Jã¨ãƒãƒ¼ã‚¸
  */		
 proc sort	data	=	ae2 ;
 	by	aelltcd ;
@@ -103,37 +110,51 @@ data	ae3 ;
 	merge	ae2(in=a)
 			llt_j(rename=(var1=aelltcd)) ;
 		by	aelltcd ;
+	length	aesertxt	$ 100 ;
 	if	a ;
+* é‡ç¯¤ãƒ†ã‚­ã‚¹ãƒˆ ;
+	if		aeser eq 'N'	then	do ;
+		aesertxt	=	'éé‡ç¯¤' ;
+	end ;
+	else if	aeser eq 'Y'	then	do ;
+		if aesdth eq 'Y'	then	%aesertxt ( 'æ­»äº¡' ) ;
+		if aesdisab eq 'Y'	then	%aesertxt ( 'éšœå®³' ) ;
+		if aeshosp eq 'Y'	then	%aesertxt ( 'å…¥é™¢/å…¥é™¢å»¶é•·' ) ;
+		if aeslife eq 'Y'	then	%aesertxt ( 'ç”Ÿå‘½ã‚’è„…ã‹ã™' ) ;
+		if aescong eq 'Y'	then	%aesertxt ( 'å­ã®å¥‡å½¢/éšœå®³' ) ;
+		if aesmie eq 'Y'	then	%aesertxt ( 'ãã®ä»–éšœå®³' ) ;
+	end ;
+
 	keep	usubjid	age	sex	arm	
 			aellt	/* aehlt	aesoc */
 			var2
-			aeser
+			aesertxt
 			aetoxgr
 			aerel
 			aeout
 			;
 	rename	var2	=	AELLT_J
 			;
-	format	aeser	$aeserf.
-			aerel	$aerelf.
+	format	aerel	$aerelf.
 			aeout	$aeoutf.
+			sex		$sexf.
 			;
-	label	usubjid		=	'“o˜^”Ô†'
-			age			=	'”N—î'
-			sex			=	'«•Ê'
-			arm			=	'Š„•tŒQ'
-			var2		=	'—LŠQ–Û–¼(LLT)'
-			aeser		=	'd“Ä'
-			aetoxgr		=	'Åˆ«ƒOƒŒ[ƒh'
-			aerel		=	'ˆö‰ÊŠÖŒW'
-			aeout		=	'“]‹A'
+	label	usubjid		=	'ç™»éŒ²ç•ªå·'
+			age			=	'å¹´é½¢'
+			sex			=	'æ€§åˆ¥'
+			arm			=	'å‰²ä»˜ç¾¤'
+			var2		=	'æœ‰å®³äº‹è±¡å(LLT)'
+			aesertxt	=	'é‡ç¯¤'
+			aetoxgr		=	'æœ€æ‚ªæ™‚ã‚°ãƒ¬ãƒ¼ãƒ‰'
+			aerel		=	'å› æœé–¢ä¿‚'
+			aeout		=	'è»¢å¸°'
 			;
 run ;
 proc sort	data	=	ae3 ;
 	by	usubjid ;
 run ;
 /*
- * o—Í—pƒf[ƒ^ƒZƒbƒg
+ * å‡ºåŠ›ç”¨ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
  */
 data	output ;
 	format	usubjid
@@ -154,11 +175,11 @@ data	output ;
 		sex		=	' ' ;
 		arm		=	' ' ;
 	end ;
-	if	aellt_j eq ' '	then	aellt_j	=	'”­Œ»‚È‚µ' ;
+	if	aellt_j eq ' '	then	aellt_j	=	'ç™ºç¾ãªã—' ;
 	drop	aellt ;
 run ;
 /*
- * Excel•\¦
+ * Excelè¡¨ç¤º
  */
 filename	outf	"&outf" ;
 ods listing close ;
