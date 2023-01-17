@@ -1,23 +1,22 @@
 /***************************************************
- * SDTMƒf[ƒ^‚©‚çRECIST„ˆÚˆê——•\‚ğì¬‚·‚é        *
- * RECIST‚Æîá‡ƒ}[ƒJ[‚ğ•\¦‚·‚é                  *
- * ¦ Œã”¼Aƒ\[ƒXƒR[ƒh‚ğC³‚·‚é‰ÓŠ‚ª‚ ‚è‚Ü‚·   *
+ * SDTMãƒ‡ãƒ¼ã‚¿ã‹ã‚‰RECISTæ¨ç§»ä¸€è¦§è¡¨ã‚’ä½œæˆã™ã‚‹        *
+ * RECISTã¨è…«ç˜ãƒãƒ¼ã‚«ãƒ¼ã‚’è¡¨ç¤ºã™ã‚‹                  *
+ * â€» å¾ŒåŠã€ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’ä¿®æ­£ã™ã‚‹ç®‡æ‰€ãŒã‚ã‚Šã¾ã™   *
  * 		   S.Takahara Kanazawa University Hospital *
  ***************************************************/
 
-/*ššššššššššƒAƒhƒoƒCƒXšššššššššš
-  Excelo—Í‚µ‚½ŒãAƒI[ƒgƒtƒBƒ‹ƒ^[‚Å
-@•W“I•a•Ï•]‰¿A”ñ•W“I•a•Ï•]‰¿A‘‡•]‰¿”»’è
-@‚ÌŠes‚ğ‚»‚ê‚¼‚êˆá‚¤F‚É‚·‚é‚ÆŒ©‚â‚·‚¢‚Å‚·       */
+/*â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…ã‚¢ãƒ‰ãƒã‚¤ã‚¹â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…
+  Excelå‡ºåŠ›ã—ãŸå¾Œã€ã‚ªãƒ¼ãƒˆãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ã§
+ã€€æ¨™çš„ç—…å¤‰è©•ä¾¡ã€éæ¨™çš„ç—…å¤‰è©•ä¾¡ã€ç·åˆè©•ä¾¡åˆ¤å®š
+ã€€ã®å„è¡Œã‚’ãã‚Œãã‚Œé•ã†è‰²ã«ã™ã‚‹ã¨è¦‹ã‚„ã™ã„ã§ã™       */
 
-%let	study	=	ƒeƒXƒgŒ± (TEST study) ;
-%let	sdtm	=	X:\SDTMƒf[ƒ^\ ;
-%let	outf	=	X:\RECISTˆê——•\.xlsx ;
-%let	id		=	SUBJID ;			* •\¦‚·‚é”íŒ±ÒIDEEEUSUBJID‚à‚µ‚­‚ÍSUBJID ;
-%let	recist	=	RECIST 1.1 ;		* RECISTƒf[ƒ^‚ÌRSCAT ;
-%let	marker	=	TMARKER ;			* îá‡ƒ}[ƒJ[ƒf[ƒ^‚ÌLBCAT ;
-%let	drop	=	DROP ;				* ’†~‚ÌVISIT–¼ ;
-%let	last	=	LAST ;				* ÅIŠÏ@‚ÌVISIT–¼ ;
+%let	study	=	ãƒ†ã‚¹ãƒˆè©¦é¨“ (TEST study) ;
+%let	sdtm	=	R:\02.General\61.SASå…±é€šãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«\CDISCæ±ç”¨SASãƒ—ãƒ­ã‚°ãƒ©ãƒ \ãƒ†ã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿2\ ;
+%let	outf	=	\\DM-SERVER2\FRedirect$\takahara\Desktop\RECISTä¸€è¦§è¡¨.xlsx ;
+%let	recist	=	RECIST 1.1 ;		* RECISTãƒ‡ãƒ¼ã‚¿ã®RSCAT ;
+%let	marker	=	TMARKER ;			* è…«ç˜ãƒãƒ¼ã‚«ãƒ¼ãƒ‡ãƒ¼ã‚¿ã®LBCAT ;
+%let	drop	=	DROP ;				* ä¸­æ­¢æ™‚ã®VISITå ;
+%let	last	=	LAST ;				* æœ€çµ‚è¦³å¯Ÿæ™‚ã®VISITå ;
 /*
  * MACRO
  */
@@ -60,10 +59,10 @@ run ;
 /*
  * RS
  */
-%readds		( rs2, rscat eq "&RECIST" ) ;
+%readds		( rs , rscat eq "&RECIST" ) ;
 data	rs ;
 	set		rs ;
-	if	rsorres eq 'Non-CR/Non-PD'	then	rsorres='NCR/NPD' ;	* •‚ğ‚­‚¤‚½‚ß ;
+	if	rsorres eq 'Non-CR/Non-PD'	then	rsorres='NCR/NPD' ;
 run ;
 proc sort	data	=	rs	nodup ;
 	by	usubjid	rstestcd	visit ;
@@ -74,11 +73,18 @@ proc transpose		data	=	rs	out	= rs2 ;
 	var		rsorres ;
 run ;	
 /*
- * LBEEEMarker
+ * LBãƒ»ãƒ»ãƒ»Marker
  */
 %readds		( lb ,  lbcat eq "&MARKER" ) ;
 proc sort	data	=	lb ;
 	by	usubjid	lbtestcd	visit ;
+run ;
+data	lb ;
+	set		lb ;
+	length	t	$ 8 ;
+	t	=	left ( put	( lborres , best. ) ) ;
+	rename	t	=	lborres ;
+	drop	lborres ;
 run ;
 proc transpose		data	=	lb	out	= lb2 ;
 	by		usubjid	lbtestcd ;
@@ -131,7 +137,7 @@ data	wk3 ;
 	length	l	3.
 			c1	$ 20.
 			;
-	merge	dm(keep=usubjid subjid)
+	merge	dm(keep=usubjid age sex)
 			wk2a(rename=(fup=best))
 			wk2
 			;
@@ -139,38 +145,41 @@ data	wk3 ;
 	retain	l ;
 	if	first.usubjid	then	do ;
 		l	=	0 ;
-		c1	=	&id ;
+		c1	=	usubjid ;
 	end ;
 	l	=	l + 1 ;
 	if	l eq 2	then	do ;
+		c1	=	put ( age , best. ) || ' / ' || sex ;
+	end ;
+	if	l eq 3	then	do ;
 		c1	=	best ;
 	end ;
 	if	last.usubjid	then	do ;
 		l	=	99 ;
 	end ;
-	if		trlnkid eq 'ATRG'	then	wk	=	'•W“I•a•Ï•]‰¿' ;
-	else if	trlnkid eq 'NTRG'	then	wk	=	'”ñ•W“I•a•Ï•]‰¿' ;
-	else if	trlnkid eq 'X'		then	wk	=	'V•a•Ï' ;
-	else if	trlnkid eq 'Y'		then	wk	=	'‘‡•]‰¿”»’è' ;
+	if		trlnkid eq 'ATRG'	then	wk	=	'æ¨™çš„ç—…å¤‰è©•ä¾¡' ;
+	else if	trlnkid eq 'NTRG'	then	wk	=	'éæ¨™çš„ç—…å¤‰è©•ä¾¡' ;
+	else if	trlnkid eq 'X'		then	wk	=	'æ–°ç—…å¤‰' ;
+	else if	trlnkid eq 'Y'		then	wk	=	'ç·åˆè©•ä¾¡åˆ¤å®š' ;
 	if		trlnkid eq 'ATRG'	then	flg	=	1 ;
-	drop	best	_name_	lbtestcd	rstestcd ;
-	label	c1		=	'Ç—á“o˜^”Ô†*Å—ÇŒø‰Ê”»’è'
-			wk		=	'•”ˆÊ^€–Ú'
-			&drop	=	'’†~'
-			&last	=	'ÅIŠÏ@'
+	drop	best	_name_	lbtestcd	rstestcd	age	sex ;
+	label	c1		=	'ç—‡ä¾‹ç™»éŒ²ç•ªå·*å¹´é½¢ãƒ»æ€§åˆ¥*æœ€è‰¯åŠ¹æœåˆ¤å®š'
+			wk		=	'éƒ¨ä½ï¼é …ç›®'
+			&drop	=	'ä¸­æ­¢æ™‚'
+			&last	=	'æœ€çµ‚è¦³å¯Ÿæ™‚'
 			;
 run ;
 proc sort	data	=	wk3 ;
-	by	&id	trlnkid ;
+	by	usubjid	trlnkid ;
 run ; 
 /*
- * ƒŒƒ|[ƒgì¬EEEWK3‚ğ‚à‚Æ‚ÉAVisit‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
+ * ãƒ¬ãƒãƒ¼ãƒˆä½œæˆãƒ»ãƒ»ãƒ»WK3ã‚’ã‚‚ã¨ã«ã€Visitã‚’é †ã«æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
  */
-title		"&study RECIST„ˆÚˆê——•\" ;
+title		"&study RECISTæ¨ç§»ä¸€è¦§è¡¨" ;
 footnote	'&P/&N' ;
 ods	excel	file	=	"&outf"
 			options ( 
-				sheet_name	= 'RECIST„ˆÚˆê——•\'
+				sheet_name	= 'RECISTæ¨ç§»ä¸€è¦§è¡¨'
 				orientation	= 'landscape'
 				pages_fitwidth	=	'1'	
 				pages_fitheight	=	'999'
@@ -182,28 +191,33 @@ proc report	data	=	wk3
 				style(column)	=	[width=100pt]
 				box
 				;
+**************************************** ã“ã“ã€wk3ã‚’è¦‹ãªãŒã‚‰Visitã‚’è¡¨ç¤ºé †ã«æŒ‡å®š ************************************ ;
+	column	l trlnkid 	c1	wk	
+			pre	cycle_2	cycle_4	cycle_6	cycle_8	cycle_10	cycle_12	cycle_14	cycle_16	cycle_18	&DROP ;	* ã“ã“ã€wk3ã‚’è¦‹ãªãŒã‚‰Visitã‚’è¡¨ç¤ºé †ã«æŒ‡å®š ;
+**************************************************** æŒ‡å®šãŠã‚ã‚Š **************************************************** ;
 
-	column	L DEF	/* trlnkid */	c1	wk	
-			screen	cycle_2	cycle_4	cycle_6	cycle_8	cycle_10	cycle_12	cycle_14	&DROP	&LAST ;	* ‚±‚±Awk3Œ©‚È‚ª‚ç•\¦‡‚ÉVisitw’è ;
-
-	define	c1		/ style	=	[width=80pt] ;
+	define	c1		/ style	=	[width=80pt just=c] ;
 	define	wk		/ style	=	[width=250pt] ;
-	define	L		/ noprint ;
-	define	DEF		/ noprint	computed ;
+	define	l		/ display	noprint ;
+	define	trlnkid	/ noprint ;
 
-	compute	DEF ;
-/* ‚±‚±AF•ª‚¯‚ª‚¤‚Ü‚­‚¢‚«‚Ü‚¹‚ñBÚ‚µ‚¢•û‹³‚¦‚Ä‚­‚¾‚³‚¢
+	compute	wk ;
 		if		trlnkid eq 'ATRG'	then
-			call	define	( _row_ ,	"style" ,	"style=[backgroundcolor=blue]" ) ;
+			call	define	( _row_ ,	"style" ,	"style=[backgroundcolor=lemonchiffon]" ) ;
 		else if	trlnkid eq 'NTRG'	then
-			call	define	( _row_ ,	"style" ,	"style=[backgroundcolor=green]" ) ;
+			call	define	( _row_ ,	"style" ,	"style=[backgroundcolor=lightcyan]" ) ;
 		else if	trlnkid eq 'Y'	then
-			call	define	( _row_ ,	"style" ,	"style=[backgroundcolor=yellow]" ) ;
-*/
-		if	L.sum eq 99	then
-			call	define	( _row_ ,	"style" ,	"style=[borderbottomcolor=black borderbottomwidth=0.1]" ) ;
+			call	define	( _row_ ,	"style" ,	"style=[backgroundcolor=pink]" ) ;
+		else if	trlnkid eq 'Z'	then
+			call	define	( _row_ ,	"style" ,	"style=[backgroundcolor=lightgray]" ) ;
+
+		call	define	( 'c1' ,	"style/replace" ,	"style=[backgroundcolor=white]" ) ;
+
+		if	l eq 99	then
+			call	define	( _row_ ,	"style/merge" ,	"style=[borderbottomcolor=black borderbottomstyle=double bordertopcolor=white bordertopwidth=5]" ) ;
 		else
-			call	define	( _row_ ,	"style" ,	"style=[borderbottomcolor=white borderbottomwidth=0.3]" ) ;
+			call	define	( 'c1' ,	"style/merge" ,	"style=[borderbottomcolor=white borderbottomwidth=5 bordertopcolor=white bordertopwidth=5]" ) ;
+
 	endcomp ;
 run ;
 ods	excel	close ;
