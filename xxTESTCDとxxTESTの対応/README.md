@@ -8,7 +8,7 @@
 - Terminology_Merge_2 - Terminologyデータ削除.accdb
 - 作成した際のAccessもアップロードしました。
 - 但し、Terminologyをインポートした状態ではサイズが大きすぎるため、Terminologyの中身は削除してあります。
-# <New> xxTESTCDとxxTESTの検索ツール
+## <New> xxTESTCDとxxTESTの検索ツール
 - Terminology検索.accdb
 - せっかくAccessで対応表を作ったので、検索もできるようにしましたので、追加でアップします。
 - 現在、Terminologyの20240329版で作成しています。
