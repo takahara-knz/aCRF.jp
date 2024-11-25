@@ -5,7 +5,7 @@
 - 日本語訳はGoogle翻訳の直訳です。誤訳もありますがご容赦ください。英文もあわせて確認してください。
 - ドメインを増やしました。23-Jul-2024
 ## 対応表作成ツールについて
-- Terminology_Merge_2 - Terminologyデータ削除.accdb
+- Terminology_Merge_4 - Terminologyデータ削除.accdb
 - 作成した際のAccessもアップロードしました。
 - 但し、Terminologyをインポートした状態ではサイズが大きすぎるため、Terminologyの中身は削除してあります。
 ## <New> xxTESTCDとxxTESTの検索ツール
